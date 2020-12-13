@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'jhi-redirect',
@@ -8,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class RedirectComponent implements OnInit {
   message: string;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     this.message = 'RedirectComponent message';
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.location.href = 'https://google.de';
+  }
 }
