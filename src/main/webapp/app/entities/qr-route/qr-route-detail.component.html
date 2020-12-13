@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="qrRoute">
+            <h2><span jhiTranslate="bildwerkQrApp.qrRoute.detail.title">Qr Route</span> {{ qrRoute.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.description">Description</span></dt>
+                <dd>
+                    <span>{{ qrRoute.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.code">Code</span></dt>
+                <dd>
+                    <span>{{ qrRoute.code }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.url">Url</span></dt>
+                <dd>
+                    <span>{{ qrRoute.url }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.enabled">Enabled</span></dt>
+                <dd>
+                    <span>{{ qrRoute.enabled }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ qrRoute.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ qrRoute.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="bildwerkQrApp.qrRoute.user">User</span></dt>
+                <dd>
+                    {{ qrRoute.user?.id }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/qr-route', qrRoute.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

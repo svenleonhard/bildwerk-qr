@@ -1,0 +1,28 @@
+{
+  "bildwerkQrApp": {
+    "qrRoute": {
+      "home": {
+        "title": "Qr Routes",
+        "createLabel": "Qr Route erstellen",
+        "createOrEditLabel": "Qr Route erstellen oder bearbeiten",
+        "notFound": "No Qr Routes found"
+      },
+      "created": "Qr Route erstellt mit ID {{ param }}",
+      "updated": "Qr Route aktualisiert mit ID {{ param }}",
+      "deleted": "Qr Route gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Qr Route {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Qr Route"
+      },
+      "description": "Description",
+      "code": "Code",
+      "url": "Url",
+      "enabled": "Enabled",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "user": "User"
+    }
+  }
+}

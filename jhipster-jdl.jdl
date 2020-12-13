@@ -1,0 +1,16 @@
+entity QrRoute {
+	description String
+    code String
+    url String
+    enabled Boolean
+    startDate LocalDate
+    endDate LocalDate
+}
+
+relationship ManyToOne {
+	QrRoute{user} to User
+}
+
+// Set pagination options
+paginate QrRoute with infinite-scroll
+service all with serviceImpl
