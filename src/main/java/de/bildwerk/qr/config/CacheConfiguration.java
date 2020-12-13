@@ -51,6 +51,7 @@ public class CacheConfiguration {
             createCache(cm, de.bildwerk.qr.domain.Authority.class.getName());
             createCache(cm, de.bildwerk.qr.domain.User.class.getName() + ".authorities");
             createCache(cm, de.bildwerk.qr.domain.QrRoute.class.getName());
+            createCache(cm, de.bildwerk.qr.domain.UserQrCode.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

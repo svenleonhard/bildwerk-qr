@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface QrRouteRepository extends JpaRepository<QrRoute, Long> {
+public interface QrRouteRepository extends JpaRepository<QrRoute, Long>, JpaSpecificationExecutor<QrRoute> {
     @Query("select qrRoute from QrRoute qrRoute where qrRoute.user.login = ?#{principal.username}")
     List<QrRoute> findByUserIsCurrentUser();
 }

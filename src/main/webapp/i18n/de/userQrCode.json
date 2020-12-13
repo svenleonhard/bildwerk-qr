@@ -1,0 +1,23 @@
+{
+  "bildwerkQrApp": {
+    "userQrCode": {
+      "home": {
+        "title": "User Qr Codes",
+        "createLabel": "User Qr Code erstellen",
+        "createOrEditLabel": "User Qr Code erstellen oder bearbeiten",
+        "notFound": "No User Qr Codes found"
+      },
+      "created": "User Qr Code erstellt mit ID {{ param }}",
+      "updated": "User Qr Code aktualisiert mit ID {{ param }}",
+      "deleted": "User Qr Code gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll User Qr Code {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "User Qr Code"
+      },
+      "code": "Code",
+      "user": "User"
+    }
+  }
+}

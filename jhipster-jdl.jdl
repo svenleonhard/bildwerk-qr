@@ -7,10 +7,19 @@ entity QrRoute {
     endDate LocalDate
 }
 
+entity UserQrCode {
+  code String
+}
+
 relationship ManyToOne {
 	QrRoute{user} to User
+}
+
+relationship OneToOne {
+   UserQrCode{user} to User
 }
 
 // Set pagination options
 paginate QrRoute with infinite-scroll
 service all with serviceImpl
+filter all

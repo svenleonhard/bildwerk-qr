@@ -1,7 +1,9 @@
 package de.bildwerk.qr.web.rest;
 
 import de.bildwerk.qr.domain.QrRoute;
+import de.bildwerk.qr.service.QrRouteQueryService;
 import de.bildwerk.qr.service.QrRouteService;
+import de.bildwerk.qr.service.dto.QrRouteCriteria;
 import de.bildwerk.qr.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -36,8 +38,11 @@ public class QrRouteResource {
 
     private final QrRouteService qrRouteService;
 
-    public QrRouteResource(QrRouteService qrRouteService) {
+    private final QrRouteQueryService qrRouteQueryService;
+
+    public QrRouteResource(QrRouteService qrRouteService, QrRouteQueryService qrRouteQueryService) {
         this.qrRouteService = qrRouteService;
+        this.qrRouteQueryService = qrRouteQueryService;
     }
 
     /**
@@ -86,14 +91,27 @@ public class QrRouteResource {
      * {@code GET  /qr-routes} : get all the qrRoutes.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of qrRoutes in body.
      */
     @GetMapping("/qr-routes")
-    public ResponseEntity<List<QrRoute>> getAllQrRoutes(Pageable pageable) {
-        log.debug("REST request to get a page of QrRoutes");
-        Page<QrRoute> page = qrRouteService.findAll(pageable);
+    public ResponseEntity<List<QrRoute>> getAllQrRoutes(QrRouteCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get QrRoutes by criteria: {}", criteria);
+        Page<QrRoute> page = qrRouteQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /qr-routes/count} : count all the qrRoutes.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/qr-routes/count")
+    public ResponseEntity<Long> countQrRoutes(QrRouteCriteria criteria) {
+        log.debug("REST request to count QrRoutes by criteria: {}", criteria);
+        return ResponseEntity.ok().body(qrRouteQueryService.countByCriteria(criteria));
     }
 
     /**
