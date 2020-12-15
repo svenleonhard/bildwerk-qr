@@ -3,15 +3,19 @@ package de.bildwerk.qr.service;
 import de.bildwerk.qr.domain.*; // for static metamodels
 import de.bildwerk.qr.domain.UserQrCode;
 import de.bildwerk.qr.repository.UserQrCodeRepository;
+import de.bildwerk.qr.security.AuthoritiesConstants;
+import de.bildwerk.qr.security.SecurityUtils;
 import de.bildwerk.qr.service.dto.UserQrCodeCriteria;
 import io.github.jhipster.service.QueryService;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +31,11 @@ public class UserQrCodeQueryService extends QueryService<UserQrCode> {
     private final Logger log = LoggerFactory.getLogger(UserQrCodeQueryService.class);
 
     private final UserQrCodeRepository userQrCodeRepository;
+    private final UserService userService;
 
-    public UserQrCodeQueryService(UserQrCodeRepository userQrCodeRepository) {
+    public UserQrCodeQueryService(UserQrCodeRepository userQrCodeRepository, UserService userService) {
         this.userQrCodeRepository = userQrCodeRepository;
+        this.userService = userService;
     }
 
     /**
@@ -41,7 +47,18 @@ public class UserQrCodeQueryService extends QueryService<UserQrCode> {
     public List<UserQrCode> findByCriteria(UserQrCodeCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
         final Specification<UserQrCode> specification = createSpecification(criteria);
-        return userQrCodeRepository.findAll(specification);
+        return userQrCodeRepository
+            .findAll(specification)
+            .stream()
+            .filter(
+                userQrCode ->
+                    userService.getUserWithAuthorities().isPresent() &&
+                    (
+                        SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) ||
+                        userService.getUserWithAuthorities().get().equals(userQrCode.getUser())
+                    )
+            )
+            .collect(Collectors.toList());
     }
 
     /**
