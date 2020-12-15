@@ -23,8 +23,8 @@ export class UserQrCodeExposedService {
     return this.http.put<IUserQrCodeExposed>(this.resourceUrl, userQrCodeExposed, { observe: 'response' });
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IUserQrCodeExposed>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  find(code: string): Observable<EntityResponseType> {
+    return this.http.get<IUserQrCodeExposed>(`${this.resourceUrl}/${code}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

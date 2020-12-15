@@ -21,6 +21,9 @@ public class UserQrCodeExposed implements Serializable {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "url")
+    private String url;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -41,6 +44,19 @@ public class UserQrCodeExposed implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public UserQrCodeExposed url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -67,6 +83,7 @@ public class UserQrCodeExposed implements Serializable {
         return "UserQrCodeExposed{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
+            ", url='" + getUrl() + "'" +
             "}";
     }
 }

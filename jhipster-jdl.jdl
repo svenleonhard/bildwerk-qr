@@ -13,6 +13,7 @@ entity UserQrCode {
 
 entity UserQrCodeExposed {
   code String
+  url String
 }
 
 relationship ManyToOne {

@@ -18,6 +18,7 @@ export class UserQrCodeExposedUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     code: [],
+    url: [],
   });
 
   constructor(
@@ -36,6 +37,7 @@ export class UserQrCodeExposedUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: userQrCodeExposed.id,
       code: userQrCodeExposed.code,
+      url: userQrCodeExposed.url,
     });
   }
 
@@ -58,6 +60,7 @@ export class UserQrCodeExposedUpdateComponent implements OnInit {
       ...new UserQrCodeExposed(),
       id: this.editForm.get(['id'])!.value,
       code: this.editForm.get(['code'])!.value,
+      url: this.editForm.get(['url'])!.value,
     };
   }
 

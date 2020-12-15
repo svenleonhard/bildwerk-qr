@@ -4,6 +4,10 @@
     {
       "fieldName": "code",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
     }
   ],
   "relationships": [],

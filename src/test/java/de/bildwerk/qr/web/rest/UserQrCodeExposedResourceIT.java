@@ -33,6 +33,9 @@ public class UserQrCodeExposedResourceIT {
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_URL = "AAAAAAAAAA";
+    private static final String UPDATED_URL = "BBBBBBBBBB";
+
     @Autowired
     private UserQrCodeExposedRepository userQrCodeExposedRepository;
 
@@ -57,7 +60,7 @@ public class UserQrCodeExposedResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserQrCodeExposed createEntity(EntityManager em) {
-        UserQrCodeExposed userQrCodeExposed = new UserQrCodeExposed().code(DEFAULT_CODE);
+        UserQrCodeExposed userQrCodeExposed = new UserQrCodeExposed().code(DEFAULT_CODE).url(DEFAULT_URL);
         return userQrCodeExposed;
     }
 
@@ -68,7 +71,7 @@ public class UserQrCodeExposedResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserQrCodeExposed createUpdatedEntity(EntityManager em) {
-        UserQrCodeExposed userQrCodeExposed = new UserQrCodeExposed().code(UPDATED_CODE);
+        UserQrCodeExposed userQrCodeExposed = new UserQrCodeExposed().code(UPDATED_CODE).url(UPDATED_URL);
         return userQrCodeExposed;
     }
 
@@ -95,6 +98,7 @@ public class UserQrCodeExposedResourceIT {
         assertThat(userQrCodeExposedList).hasSize(databaseSizeBeforeCreate + 1);
         UserQrCodeExposed testUserQrCodeExposed = userQrCodeExposedList.get(userQrCodeExposedList.size() - 1);
         assertThat(testUserQrCodeExposed.getCode()).isEqualTo(DEFAULT_CODE);
+        assertThat(testUserQrCodeExposed.getUrl()).isEqualTo(DEFAULT_URL);
     }
 
     @Test
@@ -131,7 +135,8 @@ public class UserQrCodeExposedResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userQrCodeExposed.getId().intValue())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
     }
 
     @Test
@@ -146,7 +151,8 @@ public class UserQrCodeExposedResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(userQrCodeExposed.getId().intValue()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE));
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.url").value(DEFAULT_URL));
     }
 
     @Test
@@ -245,6 +251,84 @@ public class UserQrCodeExposedResourceIT {
         defaultUserQrCodeExposedShouldBeFound("code.doesNotContain=" + UPDATED_CODE);
     }
 
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url equals to DEFAULT_URL
+        defaultUserQrCodeExposedShouldBeFound("url.equals=" + DEFAULT_URL);
+
+        // Get all the userQrCodeExposedList where url equals to UPDATED_URL
+        defaultUserQrCodeExposedShouldNotBeFound("url.equals=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url not equals to DEFAULT_URL
+        defaultUserQrCodeExposedShouldNotBeFound("url.notEquals=" + DEFAULT_URL);
+
+        // Get all the userQrCodeExposedList where url not equals to UPDATED_URL
+        defaultUserQrCodeExposedShouldBeFound("url.notEquals=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url in DEFAULT_URL or UPDATED_URL
+        defaultUserQrCodeExposedShouldBeFound("url.in=" + DEFAULT_URL + "," + UPDATED_URL);
+
+        // Get all the userQrCodeExposedList where url equals to UPDATED_URL
+        defaultUserQrCodeExposedShouldNotBeFound("url.in=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url is not null
+        defaultUserQrCodeExposedShouldBeFound("url.specified=true");
+
+        // Get all the userQrCodeExposedList where url is null
+        defaultUserQrCodeExposedShouldNotBeFound("url.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlContainsSomething() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url contains DEFAULT_URL
+        defaultUserQrCodeExposedShouldBeFound("url.contains=" + DEFAULT_URL);
+
+        // Get all the userQrCodeExposedList where url contains UPDATED_URL
+        defaultUserQrCodeExposedShouldNotBeFound("url.contains=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllUserQrCodeExposedsByUrlNotContainsSomething() throws Exception {
+        // Initialize the database
+        userQrCodeExposedRepository.saveAndFlush(userQrCodeExposed);
+
+        // Get all the userQrCodeExposedList where url does not contain DEFAULT_URL
+        defaultUserQrCodeExposedShouldNotBeFound("url.doesNotContain=" + DEFAULT_URL);
+
+        // Get all the userQrCodeExposedList where url does not contain UPDATED_URL
+        defaultUserQrCodeExposedShouldBeFound("url.doesNotContain=" + UPDATED_URL);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -254,7 +338,8 @@ public class UserQrCodeExposedResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userQrCodeExposed.getId().intValue())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
 
         // Check, that the count call also returns 1
         restUserQrCodeExposedMockMvc
@@ -302,7 +387,7 @@ public class UserQrCodeExposedResourceIT {
         UserQrCodeExposed updatedUserQrCodeExposed = userQrCodeExposedRepository.findById(userQrCodeExposed.getId()).get();
         // Disconnect from session so that the updates on updatedUserQrCodeExposed are not directly saved in db
         em.detach(updatedUserQrCodeExposed);
-        updatedUserQrCodeExposed.code(UPDATED_CODE);
+        updatedUserQrCodeExposed.code(UPDATED_CODE).url(UPDATED_URL);
 
         restUserQrCodeExposedMockMvc
             .perform(
@@ -317,6 +402,7 @@ public class UserQrCodeExposedResourceIT {
         assertThat(userQrCodeExposedList).hasSize(databaseSizeBeforeUpdate);
         UserQrCodeExposed testUserQrCodeExposed = userQrCodeExposedList.get(userQrCodeExposedList.size() - 1);
         assertThat(testUserQrCodeExposed.getCode()).isEqualTo(UPDATED_CODE);
+        assertThat(testUserQrCodeExposed.getUrl()).isEqualTo(UPDATED_URL);
     }
 
     @Test

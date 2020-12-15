@@ -83,6 +83,9 @@ public class UserQrCodeExposedQueryService extends QueryService<UserQrCodeExpose
             if (criteria.getCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCode(), UserQrCodeExposed_.code));
             }
+            if (criteria.getUrl() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUrl(), UserQrCodeExposed_.url));
+            }
         }
         return specification;
     }

@@ -27,11 +27,14 @@ public class UserQrCodeExposedCriteria implements Serializable, Criteria {
 
     private StringFilter code;
 
+    private StringFilter url;
+
     public UserQrCodeExposedCriteria() {}
 
     public UserQrCodeExposedCriteria(UserQrCodeExposedCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.code = other.code == null ? null : other.code.copy();
+        this.url = other.url == null ? null : other.url.copy();
     }
 
     @Override
@@ -55,6 +58,14 @@ public class UserQrCodeExposedCriteria implements Serializable, Criteria {
         this.code = code;
     }
 
+    public StringFilter getUrl() {
+        return url;
+    }
+
+    public void setUrl(StringFilter url) {
+        this.url = url;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -64,12 +75,12 @@ public class UserQrCodeExposedCriteria implements Serializable, Criteria {
             return false;
         }
         final UserQrCodeExposedCriteria that = (UserQrCodeExposedCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(code, that.code);
+        return Objects.equals(id, that.id) && Objects.equals(code, that.code) && Objects.equals(url, that.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code);
+        return Objects.hash(id, code, url);
     }
 
     // prettier-ignore
@@ -78,6 +89,7 @@ public class UserQrCodeExposedCriteria implements Serializable, Criteria {
         return "UserQrCodeExposedCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
+                (url != null ? "url=" + url + ", " : "") +
             "}";
     }
 }

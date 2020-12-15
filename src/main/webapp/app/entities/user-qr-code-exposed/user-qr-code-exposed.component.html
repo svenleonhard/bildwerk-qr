@@ -24,6 +24,7 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="bildwerkQrApp.userQrCodeExposed.code">Code</span></th>
+                    <th scope="col" ><span jhiTranslate="bildwerkQrApp.userQrCodeExposed.url">Url</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -31,6 +32,7 @@
                 <tr *ngFor="let userQrCodeExposed of userQrCodeExposeds ;trackBy: trackId">
                     <td><a [routerLink]="['/user-qr-code-exposed', userQrCodeExposed.id, 'view']">{{ userQrCodeExposed.id }}</a></td>
                     <td>{{ userQrCodeExposed.code }}</td>
+                    <td>{{ userQrCodeExposed.url }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

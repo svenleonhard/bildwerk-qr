@@ -16,7 +16,8 @@
       "detail": {
         "title": "User Qr Code Exposed"
       },
-      "code": "Code"
+      "code": "Code",
+      "url": "Url"
     }
   }
 }
