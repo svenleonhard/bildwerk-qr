@@ -1,0 +1,22 @@
+{
+  "bildwerkQrApp": {
+    "userQrCodeExposed": {
+      "home": {
+        "title": "User Qr Code Exposeds",
+        "createLabel": "User Qr Code Exposed erstellen",
+        "createOrEditLabel": "User Qr Code Exposed erstellen oder bearbeiten",
+        "notFound": "No User Qr Code Exposeds found"
+      },
+      "created": "User Qr Code Exposed erstellt mit ID {{ param }}",
+      "updated": "User Qr Code Exposed aktualisiert mit ID {{ param }}",
+      "deleted": "User Qr Code Exposed gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll User Qr Code Exposed {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "User Qr Code Exposed"
+      },
+      "code": "Code"
+    }
+  }
+}

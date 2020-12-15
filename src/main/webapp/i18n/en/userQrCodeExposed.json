@@ -1,0 +1,22 @@
+{
+  "bildwerkQrApp": {
+    "userQrCodeExposed": {
+      "home": {
+        "title": "User Qr Code Exposeds",
+        "createLabel": "Create a new User Qr Code Exposed",
+        "createOrEditLabel": "Create or edit a User Qr Code Exposed",
+        "notFound": "No User Qr Code Exposeds found"
+      },
+      "created": "A new User Qr Code Exposed is created with identifier {{ param }}",
+      "updated": "A User Qr Code Exposed is updated with identifier {{ param }}",
+      "deleted": "A User Qr Code Exposed is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Qr Code Exposed {{ id }}?"
+      },
+      "detail": {
+        "title": "User Qr Code Exposed"
+      },
+      "code": "Code"
+    }
+  }
+}

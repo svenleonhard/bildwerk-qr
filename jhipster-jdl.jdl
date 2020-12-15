@@ -11,6 +11,10 @@ entity UserQrCode {
   code String
 }
 
+entity UserQrCodeExposed {
+  code String
+}
+
 relationship ManyToOne {
 	QrRoute{user} to User
 }

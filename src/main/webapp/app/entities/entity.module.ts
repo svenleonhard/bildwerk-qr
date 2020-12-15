@@ -12,6 +12,10 @@ import { RouterModule } from '@angular/router';
         path: 'user-qr-code',
         loadChildren: () => import('./user-qr-code/user-qr-code.module').then(m => m.BildwerkQrUserQrCodeModule),
       },
+      {
+        path: 'user-qr-code-exposed',
+        loadChildren: () => import('./user-qr-code-exposed/user-qr-code-exposed.module').then(m => m.BildwerkQrUserQrCodeExposedModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
