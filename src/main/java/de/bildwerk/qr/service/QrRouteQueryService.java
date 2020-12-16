@@ -3,9 +3,13 @@ package de.bildwerk.qr.service;
 import de.bildwerk.qr.domain.*; // for static metamodels
 import de.bildwerk.qr.domain.QrRoute;
 import de.bildwerk.qr.repository.QrRouteRepository;
+import de.bildwerk.qr.security.AuthoritiesConstants;
+import de.bildwerk.qr.security.SecurityUtils;
 import de.bildwerk.qr.service.dto.QrRouteCriteria;
 import io.github.jhipster.service.QueryService;
+import io.github.jhipster.service.filter.LongFilter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +31,11 @@ public class QrRouteQueryService extends QueryService<QrRoute> {
     private final Logger log = LoggerFactory.getLogger(QrRouteQueryService.class);
 
     private final QrRouteRepository qrRouteRepository;
+    private final UserService userService;
 
-    public QrRouteQueryService(QrRouteRepository qrRouteRepository) {
+    public QrRouteQueryService(QrRouteRepository qrRouteRepository, UserService userService) {
         this.qrRouteRepository = qrRouteRepository;
+        this.userService = userService;
     }
 
     /**
@@ -41,7 +47,18 @@ public class QrRouteQueryService extends QueryService<QrRoute> {
     public List<QrRoute> findByCriteria(QrRouteCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
         final Specification<QrRoute> specification = createSpecification(criteria);
-        return qrRouteRepository.findAll(specification);
+        return qrRouteRepository
+            .findAll(specification)
+            .stream()
+            .filter(
+                userQrCode ->
+                    userService.getUserWithAuthorities().isPresent() &&
+                    (
+                        SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) ||
+                        userService.getUserWithAuthorities().get().equals(userQrCode.getUser())
+                    )
+            )
+            .collect(Collectors.toList());
     }
 
     /**
@@ -53,8 +70,13 @@ public class QrRouteQueryService extends QueryService<QrRoute> {
     @Transactional(readOnly = true)
     public Page<QrRoute> findByCriteria(QrRouteCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
-        final Specification<QrRoute> specification = createSpecification(criteria);
-        return qrRouteRepository.findAll(specification, page);
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            return qrRouteRepository.findAll(createSpecification(criteria), page);
+        }
+        LongFilter longFilter = new LongFilter();
+        longFilter.setEquals(userService.getUserWithAuthorities().get().getId());
+        criteria.setUserId(longFilter);
+        return qrRouteRepository.findAll(createSpecification(criteria), page);
     }
 
     /**
