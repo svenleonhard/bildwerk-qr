@@ -1,8 +1,13 @@
 package de.bildwerk.qr.service.impl;
 
 import de.bildwerk.qr.domain.QrRoute;
+import de.bildwerk.qr.domain.UserQrCode;
+import de.bildwerk.qr.domain.UserQrCodeExposed;
 import de.bildwerk.qr.repository.QrRouteRepository;
 import de.bildwerk.qr.service.QrRouteService;
+import de.bildwerk.qr.service.UserQrCodeExposedService;
+import de.bildwerk.qr.service.UserQrCodeQueryService;
+import de.bildwerk.qr.service.UserService;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +25,43 @@ public class QrRouteServiceImpl implements QrRouteService {
     private final Logger log = LoggerFactory.getLogger(QrRouteServiceImpl.class);
 
     private final QrRouteRepository qrRouteRepository;
+    private final UserQrCodeExposedService userQrCodeExposedService;
+    private final UserQrCodeQueryService userQrCodeQueryService;
+    private final UserService userService;
 
-    public QrRouteServiceImpl(QrRouteRepository qrRouteRepository) {
+    public QrRouteServiceImpl(
+        QrRouteRepository qrRouteRepository,
+        UserQrCodeExposedService userQrCodeExposedService,
+        UserQrCodeQueryService userQrCodeQueryService,
+        UserService userService
+    ) {
         this.qrRouteRepository = qrRouteRepository;
+        this.userQrCodeExposedService = userQrCodeExposedService;
+        this.userQrCodeQueryService = userQrCodeQueryService;
+        this.userService = userService;
     }
 
     @Override
     public QrRoute save(QrRoute qrRoute) {
         log.debug("Request to save QrRoute : {}", qrRoute);
-        return qrRouteRepository.save(qrRoute);
+
+        if (!qrRoute.getUrl().matches("^https?://")) {
+            qrRoute.setUrl("https://" + qrRoute.getUrl());
+        }
+        QrRoute savedQrRoute = qrRouteRepository.save(qrRoute);
+        try {
+            UserQrCode userQrCode = userQrCodeQueryService
+                .findByUser(userService.getUserWithAuthorities().orElseThrow(() -> new Exception("No user found")))
+                .orElseThrow(() -> new Exception("No user qr code found"));
+            UserQrCodeExposed userQrCodeExposed = userQrCodeExposedService
+                .findByCode(userQrCode.getCode())
+                .orElseThrow(() -> new Exception("No exposed qr code found"));
+            userQrCodeExposed.setUrl(qrRoute.getUrl());
+            userQrCodeExposedService.save(userQrCodeExposed);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return savedQrRoute;
     }
 
     @Override
