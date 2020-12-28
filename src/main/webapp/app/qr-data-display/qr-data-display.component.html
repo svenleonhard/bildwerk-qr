@@ -13,19 +13,18 @@
         <div class="ml-2">
             <div class="mb-2">
                 Öffentliche URL: <br>
-                <a [href]="redirectUrl">{{ redirectUrl }}</a>
+                <a target="_blank" [href]="redirectUrl">{{ redirectUrl }}</a>
             </div>
 
             <div class="mb-2">
                 Aktuelles Umleitungsziel: <br>
-                <a [href]="currentRedirection">{{ currentRedirection }}</a>
+                <a target="_blank" [href]="currentRedirection">{{ currentRedirection }}</a>
             </div>
-
-            <!--<h3>https://qr.snp-entertainment.de/redirect/{{ myCode }}</h3>-->
 
             <div class="mt-3">
                 Neues Umleitungsziel
-                <input type="text" class="form-control"> <button class="btn btn-primary mt-2">Aktivieren</button>
+                <input type="text" class="form-control">
+                <button class="btn btn-primary mt-2">Aktivieren</button>
             </div>
 
 

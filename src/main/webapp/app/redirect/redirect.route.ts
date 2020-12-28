@@ -4,7 +4,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access-service'
 import { RedirectComponent } from './redirect.component';
 
 export const REDIRECT_ROUTE: Route = {
-  path: 'redirect/:id',
+  path: 'redirect/:code',
   component: RedirectComponent,
   data: {
     authorities: [],
