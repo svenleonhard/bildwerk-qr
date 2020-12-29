@@ -147,7 +147,7 @@ public class UserQrCodeExposedResourceIT {
 
         // Get the userQrCodeExposed
         restUserQrCodeExposedMockMvc
-            .perform(get("/api/user-qr-code-exposeds/{id}", userQrCodeExposed.getId()))
+            .perform(get("/api/user-qr-code-exposeds/{id}", userQrCodeExposed.getCode()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(userQrCodeExposed.getId().intValue()))

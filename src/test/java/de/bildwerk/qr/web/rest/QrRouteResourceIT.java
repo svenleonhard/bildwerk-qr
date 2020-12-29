@@ -2,6 +2,7 @@ package de.bildwerk.qr.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,6 +15,7 @@ import de.bildwerk.qr.service.QrRouteService;
 import de.bildwerk.qr.service.dto.QrRouteCriteria;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @SpringBootTest(classes = BildwerkQrApp.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(value = "admin", roles = { "ADMIN", "USER" })
 public class QrRouteResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -39,8 +41,9 @@ public class QrRouteResourceIT {
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_URL = "AAAAAAAAAA";
+    private static final String DEFAULT_URL = "https://AAAAAAAAAA";
     private static final String UPDATED_URL = "BBBBBBBBBB";
+    private static final String UPDATED_URL_EXPECTED = "https://BBBBBBBBBB";
 
     private static final Boolean DEFAULT_ENABLED = false;
     private static final Boolean UPDATED_ENABLED = true;
@@ -150,7 +153,7 @@ public class QrRouteResourceIT {
 
     @Test
     @Transactional
-    public void getAllQrRoutes() throws Exception {
+    public void getAllQrRoutesWithRoleAdmin() throws Exception {
         // Initialize the database
         qrRouteRepository.saveAndFlush(qrRoute);
 
@@ -166,6 +169,21 @@ public class QrRouteResourceIT {
             .andExpect(jsonPath("$.[*].enabled").value(hasItem(DEFAULT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())));
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(value = "user", roles = { "USER" })
+    public void getAllQrRoutes() throws Exception {
+        // Initialize the database
+        qrRouteRepository.saveAndFlush(qrRoute);
+
+        // Get all the qrRouteList
+        restQrRouteMockMvc
+            .perform(get("/api/qr-routes?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
@@ -801,7 +819,7 @@ public class QrRouteResourceIT {
         QrRoute testQrRoute = qrRouteList.get(qrRouteList.size() - 1);
         assertThat(testQrRoute.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testQrRoute.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testQrRoute.getUrl()).isEqualTo(UPDATED_URL);
+        assertThat(testQrRoute.getUrl()).isEqualTo(UPDATED_URL_EXPECTED);
         assertThat(testQrRoute.isEnabled()).isEqualTo(UPDATED_ENABLED);
         assertThat(testQrRoute.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testQrRoute.getEndDate()).isEqualTo(UPDATED_END_DATE);

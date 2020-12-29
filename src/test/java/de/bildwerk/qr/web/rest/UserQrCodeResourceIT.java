@@ -11,7 +11,6 @@ import de.bildwerk.qr.domain.UserQrCode;
 import de.bildwerk.qr.repository.UserQrCodeRepository;
 import de.bildwerk.qr.service.UserQrCodeQueryService;
 import de.bildwerk.qr.service.UserQrCodeService;
-import de.bildwerk.qr.service.dto.UserQrCodeCriteria;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @SpringBootTest(classes = BildwerkQrApp.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(value = "admin", roles = { "ADMIN", "USER" })
 public class UserQrCodeResourceIT {
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
@@ -53,7 +52,7 @@ public class UserQrCodeResourceIT {
 
     /**
      * Create an entity for this test.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -64,7 +63,7 @@ public class UserQrCodeResourceIT {
 
     /**
      * Create an updated entity for this test.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */

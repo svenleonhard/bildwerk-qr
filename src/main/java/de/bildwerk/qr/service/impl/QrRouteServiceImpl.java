@@ -45,7 +45,7 @@ public class QrRouteServiceImpl implements QrRouteService {
     public QrRoute save(QrRoute qrRoute) {
         log.debug("Request to save QrRoute : {}", qrRoute);
 
-        if (!qrRoute.getUrl().matches("^https?://")) {
+        if (!qrRoute.getUrl().matches("^https?://.*")) {
             qrRoute.setUrl("https://" + qrRoute.getUrl());
         }
         QrRoute savedQrRoute = qrRouteRepository.save(qrRoute);
