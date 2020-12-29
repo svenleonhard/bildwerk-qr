@@ -1,6 +1,7 @@
 {
   "home": {
     "title": "Willkommen zum [bild:werk] QR Tool",
+    "pageTitle": "[bild:werk] QR",
     "subtitle": "ACHTUNG! DIESES TOOL IST IN DER ENTWICKLUNG",
     "loginHint": "Logge dich ein übber Zugang>Anmelden",
     "logged": {

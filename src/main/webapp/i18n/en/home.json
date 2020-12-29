@@ -1,6 +1,7 @@
 {
   "home": {
     "title": "Welcome to [bild:werk] QR Tool",
+    "pageTitle": "[bild:werk] QR",
     "subtitle": "CAUTION! THIS SERVICE IS UNDER CONSTRUCTION!",
     "loginHint": "Login to service via Account>Sign In",
     "logged": {
