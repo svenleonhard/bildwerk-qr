@@ -1,7 +1,8 @@
 {
   "home": {
     "title": "Willkommen zum [bild:werk] QR Tool",
-    "subtitle": "ACHTUNG DIESES TOOL IST IN DER ENTWICKLUNG",
+    "subtitle": "ACHTUNG! DIESES TOOL IST IN DER ENTWICKLUNG",
+    "loginHint": "Logge dich ein übber Zugang>Anmelden",
     "logged": {
       "message": "Sie sind als Benutzer \"{{username}}\" angemeldet."
     },
@@ -14,6 +15,13 @@
       "follow": "kontaktieren Sie uns mit @jhipster auf Twitter"
     },
     "like": "Wenn Sie JHipster mögen, vergessen Sie nicht uns einen Stern zu geben auf",
-    "github": "GitHub"
+    "github": "GitHub",
+    "qrDataDisplay": {
+      "publicUrl": "Öffentliche URL",
+      "currentRedirection": "Aktuelle Weiterleitung",
+      "newRedirection": "Neue Weiterleitung",
+      "enable": "Aktivieren",
+      "download": "Herunterladen"
+    }
   }
 }

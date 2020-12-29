@@ -7,25 +7,25 @@
             [margin]="margin"
             [scale]="scale"
             [value]="redirectUrl"></ngx-qrcode>
-        <a [href]="qrCodeImage" class="btn btn-primary mt-3 text-white" (click)="onDownload()" download="bildwerkqr">Download</a>
+        <a [href]="qrCodeImage" class="btn btn-primary mt-3 text-white" (click)="onDownload()" download="bildwerkqr" jhiTranslate="home.qrDataDisplay.download">Download</a>
     </div>
     <div class="col-xs-6 ml-4">
         <div class="ml-2">
             <div class="mb-2">
-                Öffentliche URL: <br>
+                <span jhiTranslate="home.qrDataDisplay.publicUrl">Public URL</span>: <br>
                 <a target="_blank" [href]="redirectUrl">{{ redirectUrl }}</a>
             </div>
 
             <div class="mb-2">
-                Aktuelles Umleitungsziel: <br>
-                <a target="_blank" [href]="currentRedirection">{{ currentRedirection }}</a>
+                <span jhiTranslate="home.qrDataDisplay.currentRedirection">Current Redirection</span>: <br>
+                    <a target="_blank" [href]="currentRedirection">{{ currentRedirection }}</a>
             </div>
 
             <div class="mt-3">
-                Neues Umleitungsziel
+                <span jhiTranslate="home.qrDataDisplay.newRedirection">New Redirection</span>: <br>
                 <form #f="ngForm" (ngSubmit)="updateRedirection(f)">
                     <input type="text" class="form-control" name="updateRedirect" required [(ngModel)]="updateRedirect" [pattern]="urlPattern">
-                    <button class="btn btn-primary mt-2">Aktivieren</button>
+                    <button class="btn btn-primary mt-2" jhiTranslate="home.qrDataDisplay.enable">Enable</button>
                 </form>
 
             </div>

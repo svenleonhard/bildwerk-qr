@@ -1,7 +1,8 @@
 {
   "home": {
-    "title": "Welcome, Java Hipster!",
-    "subtitle": "This is your homepage",
+    "title": "Welcome to [bild:werk] QR Tool",
+    "subtitle": "CAUTION! THIS SERVICE IS UNDER CONSTRUCTION!",
+    "loginHint": "Login to service via Account>Sign In",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },
@@ -14,6 +15,13 @@
       "follow": "follow @jhipster on Twitter"
     },
     "like": "If you like JHipster, don't forget to give us a star on",
-    "github": "GitHub"
+    "github": "GitHub",
+    "qrDataDisplay": {
+      "publicUrl": "Public URL",
+      "currentRedirection": "Current Redirection",
+      "newRedirection": "New Redirection",
+      "enable": "Enable",
+      "download": "Download"
+    }
   }
 }
