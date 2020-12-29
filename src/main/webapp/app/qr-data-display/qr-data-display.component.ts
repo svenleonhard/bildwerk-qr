@@ -1,11 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { UserQrCodeService } from 'app/entities/user-qr-code/user-qr-code.service';
 import { QrRouteService } from 'app/entities/qr-route/qr-route.service';
-import { IQrRoute, QrRoute } from 'app/shared/model/qr-route.model';
-import { BASE_REDIRECTION_URL } from 'app/app.constants';
-import { NgForm, Validators } from '@angular/forms';
-import { doc } from 'prettier';
+import { QrRoute } from 'app/shared/model/qr-route.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'jhi-qr-data-display',
@@ -33,7 +31,7 @@ export class QrDataDisplayComponent implements OnInit {
       if (res.body) {
         const userQrCode = res.body.pop();
         if (userQrCode && userQrCode.code) {
-          this.redirectUrl = BASE_REDIRECTION_URL + '/redirect/' + userQrCode.code;
+          this.redirectUrl = location.origin + '/redirect/' + userQrCode.code;
         }
       }
     });
