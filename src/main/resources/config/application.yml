@@ -162,7 +162,7 @@ jhipster:
   #     allow-credentials: true
   #     max-age: 1800
   mail:
-    from: BildwerkQr@localhost
+    from: noreply@7lofficial.de
   swagger:
     default-include-pattern: /api/.*
     title: BildwerkQr API
