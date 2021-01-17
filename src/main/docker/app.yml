@@ -33,6 +33,10 @@ services:
       - SPRING_SECURITY_USER_PASSWORD=*
       - JHIPSTER_REGISTRY_PASSWORD=*
       - ENCRYPT_KEY=*
+      - VIRTUAL_HOST=*
+      - VIRTUAL_PORT=*
+      - LETSENCRYPT_HOST=*
+      - LETSENCRYPT_EMAIL=*
 
 networks:
   nginx-proxy_default:
