@@ -1,0 +1,1608 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "BildwerkQr API documentation",
+    "version": "0.0.1",
+    "title": "BildwerkQr API",
+    "contact": {},
+    "license": { "name": "unlicensed" }
+  },
+  "host": "bildwerkqr.snp-entertainment.de",
+  "basePath": "/",
+  "tags": [
+    { "name": "account-resource", "description": "Account Resource" },
+    { "name": "qr-route-resource", "description": "Qr Route Resource" },
+    { "name": "user-jwt-controller", "description": "User JWT Controller" },
+    { "name": "user-qr-code-exposed-resource", "description": "User Qr Code Exposed Resource" },
+    { "name": "user-qr-code-resource", "description": "User Qr Code Resource" },
+    { "name": "user-resource", "description": "User Resource" }
+  ],
+  "paths": {
+    "/api/account": {
+      "get": {
+        "tags": ["account-resource"],
+        "summary": "getAccount",
+        "operationId": "getAccountUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserDTO" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["account-resource"],
+        "summary": "saveAccount",
+        "operationId": "saveAccountUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "userDTO", "description": "userDTO", "required": true, "schema": { "$ref": "#/definitions/UserDTO" } }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/account/change-password": {
+      "post": {
+        "tags": ["account-resource"],
+        "summary": "changePassword",
+        "operationId": "changePasswordUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "passwordChangeDto",
+            "description": "passwordChangeDto",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PasswordChangeDTO" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/account/reset-password/finish": {
+      "post": {
+        "tags": ["account-resource"],
+        "summary": "finishPasswordReset",
+        "operationId": "finishPasswordResetUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "keyAndPassword",
+            "description": "keyAndPassword",
+            "required": true,
+            "schema": { "$ref": "#/definitions/KeyAndPasswordVM" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/account/reset-password/init": {
+      "post": {
+        "tags": ["account-resource"],
+        "summary": "requestPasswordReset",
+        "operationId": "requestPasswordResetUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [{ "in": "body", "name": "mail", "description": "mail", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/activate": {
+      "get": {
+        "tags": ["account-resource"],
+        "summary": "activateAccount",
+        "operationId": "activateAccountUsingGET",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "key", "in": "query", "description": "key", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/authenticate": {
+      "get": {
+        "tags": ["account-resource"],
+        "summary": "isAuthenticated",
+        "operationId": "isAuthenticatedUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "string" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["user-jwt-controller"],
+        "summary": "authorize",
+        "operationId": "authorizeUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "loginVM", "description": "loginVM", "required": true, "schema": { "$ref": "#/definitions/LoginVM" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/JWTToken" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/qr-routes": {
+      "get": {
+        "tags": ["qr-route-resource"],
+        "summary": "getAllQrRoutes",
+        "operationId": "getAllQrRoutesUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "description.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "description.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "description.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "description.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "description.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "description.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "description.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "enabled.equals", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "enabled.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "boolean" },
+            "collectionFormat": "multi"
+          },
+          { "name": "enabled.notEquals", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "enabled.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "boolean" },
+            "collectionFormat": "multi"
+          },
+          { "name": "enabled.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "endDate.equals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.greaterThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.greaterThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.in[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.in[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.in[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "endDate.in[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "endDate.in[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.in[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "endDate.in[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "endDate.in[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "endDate.in[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.in[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.lessThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.lessThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.notEquals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.notIn[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.notIn[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.notIn[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "endDate.notIn[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "endDate.notIn[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.notIn[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "endDate.notIn[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "endDate.notIn[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "endDate.notIn[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.notIn[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number of the requested page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          { "name": "size", "in": "query", "description": "Size of a page", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "startDate.equals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.greaterThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.greaterThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.in[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.in[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.in[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "startDate.in[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "startDate.in[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.in[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "startDate.in[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "startDate.in[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "startDate.in[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.in[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.lessThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.lessThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.notEquals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.notIn[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.notIn[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.notIn[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "startDate.notIn[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "startDate.notIn[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.notIn[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "startDate.notIn[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "startDate.notIn[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "startDate.notIn[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.notIn[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "url.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "url.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "url.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "userId.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/QrRoute" } } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["qr-route-resource"],
+        "summary": "createQrRoute",
+        "operationId": "createQrRouteUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "qrRoute", "description": "qrRoute", "required": true, "schema": { "$ref": "#/definitions/QrRoute" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/QrRoute" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["qr-route-resource"],
+        "summary": "updateQrRoute",
+        "operationId": "updateQrRouteUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "qrRoute", "description": "qrRoute", "required": true, "schema": { "$ref": "#/definitions/QrRoute" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/QrRoute" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/qr-routes/count": {
+      "get": {
+        "tags": ["qr-route-resource"],
+        "summary": "countQrRoutes",
+        "operationId": "countQrRoutesUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "description.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "description.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "description.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "description.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "description.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "description.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "description.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "enabled.equals", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "enabled.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "boolean" },
+            "collectionFormat": "multi"
+          },
+          { "name": "enabled.notEquals", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "enabled.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "boolean" },
+            "collectionFormat": "multi"
+          },
+          { "name": "enabled.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "endDate.equals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.greaterThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.greaterThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.in[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.in[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.in[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "endDate.in[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "endDate.in[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.in[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "endDate.in[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "endDate.in[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "endDate.in[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.in[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.lessThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.lessThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.notEquals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "endDate.notIn[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.notIn[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "endDate.notIn[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "endDate.notIn[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "endDate.notIn[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.notIn[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "endDate.notIn[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "endDate.notIn[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "endDate.notIn[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.notIn[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "endDate.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "startDate.equals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.greaterThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.greaterThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.in[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.in[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.in[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "startDate.in[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "startDate.in[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.in[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "startDate.in[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "startDate.in[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "startDate.in[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.in[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.lessThan", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.lessThanOrEqual", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.notEquals", "in": "query", "required": false, "type": "string", "format": "date" },
+          { "name": "startDate.notIn[0].chronology.calendarType", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.notIn[0].chronology.id", "in": "query", "required": false, "type": "string" },
+          { "name": "startDate.notIn[0].dayOfMonth", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "startDate.notIn[0].dayOfWeek",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+          },
+          { "name": "startDate.notIn[0].dayOfYear", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.notIn[0].era", "in": "query", "required": false, "type": "string", "enum": ["BCE", "CE"] },
+          { "name": "startDate.notIn[0].leapYear", "in": "query", "required": false, "type": "boolean" },
+          {
+            "name": "startDate.notIn[0].month",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "JANUARY",
+              "FEBRUARY",
+              "MARCH",
+              "APRIL",
+              "MAY",
+              "JUNE",
+              "JULY",
+              "AUGUST",
+              "SEPTEMBER",
+              "OCTOBER",
+              "NOVEMBER",
+              "DECEMBER"
+            ]
+          },
+          { "name": "startDate.notIn[0].monthValue", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.notIn[0].year", "in": "query", "required": false, "type": "integer", "format": "int32" },
+          { "name": "startDate.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "url.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "url.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "url.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "userId.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "integer", "format": "int64" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/qr-routes/{id}": {
+      "get": {
+        "tags": ["qr-route-resource"],
+        "summary": "getQrRoute",
+        "operationId": "getQrRouteUsingGET",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "id", "in": "path", "description": "id", "required": true, "type": "integer", "format": "int64" }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/QrRoute" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": ["qr-route-resource"],
+        "summary": "deleteQrRoute",
+        "operationId": "deleteQrRouteUsingDELETE",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "id", "in": "path", "description": "id", "required": true, "type": "integer", "format": "int64" }],
+        "responses": {
+          "200": { "description": "OK" },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/register": {
+      "post": {
+        "tags": ["account-resource"],
+        "summary": "registerAccount",
+        "operationId": "registerAccountUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "managedUserVM",
+            "description": "managedUserVM",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ManagedUserVM" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-code-exposeds": {
+      "get": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "getAllUserQrCodeExposeds",
+        "operationId": "getAllUserQrCodeExposedsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "url.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "url.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "url.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/UserQrCodeExposed" } } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "createUserQrCodeExposed",
+        "operationId": "createUserQrCodeExposedUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userQrCodeExposed",
+            "description": "userQrCodeExposed",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserQrCodeExposed" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCodeExposed" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "updateUserQrCodeExposed",
+        "operationId": "updateUserQrCodeExposedUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userQrCodeExposed",
+            "description": "userQrCodeExposed",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserQrCodeExposed" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCodeExposed" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-code-exposeds/count": {
+      "get": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "countUserQrCodeExposeds",
+        "operationId": "countUserQrCodeExposedsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "url.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "url.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "url.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "url.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "url.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "integer", "format": "int64" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-code-exposeds/{code}": {
+      "get": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "getUserQrCodeExposed",
+        "operationId": "getUserQrCodeExposedUsingGET",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "code", "in": "path", "description": "code", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCodeExposed" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-code-exposeds/{id}": {
+      "delete": {
+        "tags": ["user-qr-code-exposed-resource"],
+        "summary": "deleteUserQrCodeExposed",
+        "operationId": "deleteUserQrCodeExposedUsingDELETE",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "id", "in": "path", "description": "id", "required": true, "type": "integer", "format": "int64" }],
+        "responses": {
+          "200": { "description": "OK" },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-codes": {
+      "get": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "getAllUserQrCodes",
+        "operationId": "getAllUserQrCodesUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "userId.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/UserQrCode" } } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "createUserQrCode",
+        "operationId": "createUserQrCodeUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userQrCode",
+            "description": "userQrCode",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserQrCode" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCode" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "updateUserQrCode",
+        "operationId": "updateUserQrCodeUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userQrCode",
+            "description": "userQrCode",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserQrCode" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCode" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-codes/count": {
+      "get": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "countUserQrCodes",
+        "operationId": "countUserQrCodesUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          { "name": "code.contains", "in": "query", "required": false, "type": "string" },
+          { "name": "code.doesNotContain", "in": "query", "required": false, "type": "string" },
+          { "name": "code.equals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.notEquals", "in": "query", "required": false, "type": "string" },
+          {
+            "name": "code.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          },
+          { "name": "code.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "id.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "id.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "id.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "id.specified", "in": "query", "required": false, "type": "boolean" },
+          { "name": "userId.equals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.greaterThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.lessThan", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.lessThanOrEqual", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          { "name": "userId.notEquals", "in": "query", "required": false, "type": "integer", "format": "int64" },
+          {
+            "name": "userId.notIn",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "collectionFormat": "multi"
+          },
+          { "name": "userId.specified", "in": "query", "required": false, "type": "boolean" }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "integer", "format": "int64" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/user-qr-codes/{id}": {
+      "get": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "getUserQrCode",
+        "operationId": "getUserQrCodeUsingGET",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "id", "in": "path", "description": "id", "required": true, "type": "integer", "format": "int64" }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserQrCode" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": ["user-qr-code-resource"],
+        "summary": "deleteUserQrCode",
+        "operationId": "deleteUserQrCodeUsingDELETE",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "id", "in": "path", "description": "id", "required": true, "type": "integer", "format": "int64" }],
+        "responses": {
+          "200": { "description": "OK" },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": ["user-resource"],
+        "summary": "getAllUsers",
+        "operationId": "getAllUsersUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number of the requested page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          { "name": "size", "in": "query", "description": "Size of a page", "required": false, "type": "integer", "format": "int32" },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/UserDTO" } } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["user-resource"],
+        "summary": "createUser",
+        "operationId": "createUserUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "userDTO", "description": "userDTO", "required": true, "schema": { "$ref": "#/definitions/UserDTO" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/User" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["user-resource"],
+        "summary": "updateUser",
+        "operationId": "updateUserUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          { "in": "body", "name": "userDTO", "description": "userDTO", "required": true, "schema": { "$ref": "#/definitions/UserDTO" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserDTO" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/users/authorities": {
+      "get": {
+        "tags": ["user-resource"],
+        "summary": "getAuthorities",
+        "operationId": "getAuthoritiesUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "array", "items": { "type": "string" } } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/users/{login:^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$}": {
+      "get": {
+        "tags": ["user-resource"],
+        "summary": "getUser",
+        "operationId": "getUserUsingGET",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "login", "in": "path", "description": "login", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserDTO" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": ["user-resource"],
+        "summary": "deleteUser",
+        "operationId": "deleteUserUsingDELETE",
+        "produces": ["*/*"],
+        "parameters": [{ "name": "login", "in": "path", "description": "login", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "OK" },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "JWTToken": { "type": "object", "properties": { "id_token": { "type": "string" } }, "title": "JWTToken" },
+    "KeyAndPasswordVM": {
+      "type": "object",
+      "properties": { "key": { "type": "string" }, "newPassword": { "type": "string" } },
+      "title": "KeyAndPasswordVM"
+    },
+    "LoginVM": {
+      "type": "object",
+      "required": ["password", "username"],
+      "properties": {
+        "password": { "type": "string", "minLength": 4, "maxLength": 100 },
+        "rememberMe": { "type": "boolean" },
+        "username": { "type": "string", "minLength": 1, "maxLength": 50 }
+      },
+      "title": "LoginVM"
+    },
+    "ManagedUserVM": {
+      "type": "object",
+      "properties": {
+        "activated": { "type": "boolean" },
+        "authorities": { "type": "array", "items": { "type": "string" } },
+        "createdBy": { "type": "string" },
+        "createdDate": { "type": "string", "format": "date-time" },
+        "email": { "type": "string", "minLength": 5, "maxLength": 254 },
+        "firstName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "id": { "type": "integer", "format": "int64" },
+        "imageUrl": { "type": "string", "minLength": 0, "maxLength": 256 },
+        "langKey": { "type": "string", "minLength": 2, "maxLength": 10 },
+        "lastModifiedBy": { "type": "string" },
+        "lastModifiedDate": { "type": "string", "format": "date-time" },
+        "lastName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "login": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$"
+        },
+        "password": { "type": "string", "minLength": 4, "maxLength": 100 }
+      },
+      "title": "ManagedUserVM"
+    },
+    "PasswordChangeDTO": {
+      "type": "object",
+      "properties": { "currentPassword": { "type": "string" }, "newPassword": { "type": "string" } },
+      "title": "PasswordChangeDTO"
+    },
+    "QrRoute": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "description": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "endDate": { "type": "string", "format": "date" },
+        "id": { "type": "integer", "format": "int64" },
+        "startDate": { "type": "string", "format": "date" },
+        "url": { "type": "string" },
+        "user": { "$ref": "#/definitions/User" }
+      },
+      "title": "QrRoute"
+    },
+    "User": {
+      "type": "object",
+      "required": ["activated", "login"],
+      "properties": {
+        "activated": { "type": "boolean" },
+        "email": { "type": "string", "minLength": 5, "maxLength": 254 },
+        "firstName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "id": { "type": "integer", "format": "int64" },
+        "imageUrl": { "type": "string", "minLength": 0, "maxLength": 256 },
+        "langKey": { "type": "string", "minLength": 2, "maxLength": 10 },
+        "lastName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "login": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$"
+        },
+        "resetDate": { "type": "string", "format": "date-time" }
+      },
+      "title": "User"
+    },
+    "UserDTO": {
+      "type": "object",
+      "properties": {
+        "activated": { "type": "boolean" },
+        "authorities": { "type": "array", "items": { "type": "string" } },
+        "createdBy": { "type": "string" },
+        "createdDate": { "type": "string", "format": "date-time" },
+        "email": { "type": "string", "minLength": 5, "maxLength": 254 },
+        "firstName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "id": { "type": "integer", "format": "int64" },
+        "imageUrl": { "type": "string", "minLength": 0, "maxLength": 256 },
+        "langKey": { "type": "string", "minLength": 2, "maxLength": 10 },
+        "lastModifiedBy": { "type": "string" },
+        "lastModifiedDate": { "type": "string", "format": "date-time" },
+        "lastName": { "type": "string", "minLength": 0, "maxLength": 50 },
+        "login": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$"
+        }
+      },
+      "title": "UserDTO"
+    },
+    "UserQrCode": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "user": { "$ref": "#/definitions/User" }
+      },
+      "title": "UserQrCode"
+    },
+    "UserQrCodeExposed": {
+      "type": "object",
+      "properties": { "code": { "type": "string" }, "id": { "type": "integer", "format": "int64" }, "url": { "type": "string" } },
+      "title": "UserQrCodeExposed"
+    }
+  }
+}
