@@ -1,5 +1,7 @@
 # BildwerkQr
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/69939fd46d5544dbb2218ae2aa1e26a7)](https://app.codacy.com/gh/svenleonhard/bildwerk-qr?utm_source=github.com&utm_medium=referral&utm_content=svenleonhard/bildwerk-qr&utm_campaign=Badge_Grade_Settings)
+
 This application was generated using JHipster 6.10.5, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.10.5](https://www.jhipster.tech/documentation-archive/v6.10.5).
 
 ## Development
