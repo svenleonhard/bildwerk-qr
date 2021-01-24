@@ -1,5 +1,7 @@
 # BildwerkQr
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/69939fd46d5544dbb2218ae2aa1e26a7)](https://app.codacy.com/gh/svenleonhard/bildwerk-qr?utm_source=github.com&utm_medium=referral&utm_content=svenleonhard/bildwerk-qr&utm_campaign=Badge_Grade_Settings) [![Build Status](https://jenkins.niklas.services/buildStatus/icon?job=bildwerk-qr%2Fmain)](https://jenkins.niklas.services/job/bildwerk-qr/job/main/)
+
 This application was generated using JHipster 6.10.5, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.10.5](https://www.jhipster.tech/documentation-archive/v6.10.5).
 
 ## Development
@@ -226,10 +228,6 @@ docker-compose -f src/main/docker/app.yml up -d
 ```
 
 For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
-## Continuous Integration (optional)
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 6.10.5 archive]: https://www.jhipster.tech/documentation-archive/v6.10.5
