@@ -4,6 +4,7 @@ import { UserQrCodeService } from 'app/entities/user-qr-code/user-qr-code.servic
 import { QrRouteService } from 'app/entities/qr-route/qr-route.service';
 import { QrRoute } from 'app/shared/model/qr-route.model';
 import { NgForm } from '@angular/forms';
+import QRCodeStyling from 'qr-code-styling';
 
 @Component({
   selector: 'jhi-qr-data-display',
@@ -23,6 +24,10 @@ export class QrDataDisplayComponent implements OnInit {
   urlPattern = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
   updateRedirect: any;
+
+  qrCode: QRCodeStyling | null = null;
+
+  htmlElement: HTMLElement | undefined;
 
   constructor(private userQrCodeService: UserQrCodeService, private qrRouteService: QrRouteService) {}
 
@@ -44,6 +49,38 @@ export class QrDataDisplayComponent implements OnInit {
           this.currentQrCode = qrRoute;
         }
       }
+    });
+    this.qrCode = this.getQrCode();
+    this.qrCode.append(this.getHtmlElement());
+  }
+
+  getHtmlElement(): HTMLElement | undefined {
+    const htmlElement = document.getElementById('canvas');
+    if (htmlElement != null) {
+      return htmlElement;
+    }
+    return undefined;
+  }
+
+  getQrCode(): QRCodeStyling {
+    return new QRCodeStyling({
+      width: 400,
+      height: 400,
+      data: 'https://www.bildwerk-medien.de/',
+      dotsOptions: {
+        color: '#000000',
+        type: 'rounded',
+      },
+      cornersSquareOptions: {
+        type: 'extra-rounded',
+      },
+      backgroundOptions: {
+        color: '#FFFFFF',
+      },
+      imageOptions: {
+        crossOrigin: 'anonymous',
+        margin: 20,
+      },
     });
   }
 
